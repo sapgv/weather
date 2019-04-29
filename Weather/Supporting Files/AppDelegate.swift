@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Weather
 //
-//  Created by Гриша on 28/02/2019.
+//  Created by Sapgv on 28/02/2019.
 //  Copyright © 2019 Sapgv. All rights reserved.
 //
 
@@ -17,7 +17,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        print("Documents Directory: ", FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last ?? "Not Found!")
+        
+        let frame = UIScreen.main.bounds
+        window = UIWindow(frame: frame)
+        window?.makeKeyAndVisible()
+        
+//        let weatherViewControoler = WeatherViewController()
+//        let locationsViewController = LocationsViewController(nibName: "LocationsViewController", bundle: nil)
+//        let locationsViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LocationsViewController")
+        let locationsViewController = UINavigationController(rootViewController: FindCityViewController())
+        window?.rootViewController = locationsViewController
+        
+        
         return true
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

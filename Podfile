@@ -8,4 +8,6 @@ target 'Weather' do
   # Pods for Weather
   pod 'Alamofire', '~> 4.1'
   pod 'Moya', '~> 12.0'
+  pod 'PromiseKit', '~> 6.8'
+  pod 'PromiseKit/CoreLocation'
 end
