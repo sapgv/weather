@@ -20,7 +20,8 @@ class FindCityViewController: UIViewController {
     
     var locations: [SearchLocation] = []
     let tableView = UITableView()
-    let cellIdentifier = "FindCityCell"
+    let cellId = "FindCityCell"
+    var selectClosure: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +38,8 @@ class FindCityViewController: UIViewController {
     }
     
     func setupSearchBar() {
+        searchBar.becomeFirstResponder()
+        searchBar.setShowsCancelButton(true, animated: true)
         searchBar.delegate = self
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -48,7 +51,7 @@ class FindCityViewController: UIViewController {
     func setupTableView() {
         
         tableView.keyboardDismissMode = .onDrag
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.register(UINib(nibName: cellId, bundle: nil), forCellReuseIdentifier: cellId)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .white
@@ -73,10 +76,6 @@ class FindCityViewController: UIViewController {
     }
 }
 
-extension UIViewController {
-    
-}
-
 extension FindCityViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -91,7 +90,7 @@ extension FindCityViewController: UITableViewDelegate {
 
         let location = locations[indexPath.row]
 
-        let cell: UITableViewCell = UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
         cell.textLabel?.text = location.name
         cell.detailTextLabel?.text = location.fullName
         
@@ -118,13 +117,17 @@ extension FindCityViewController: UITableViewDelegate {
                         //save picked location
                         location.lat = try unwrap(coordinates["lat"])
                         location.lon = try unwrap(coordinates["lng"])
-                        print(location)
+                        Location.save(searchLocation: location)
+                        self.dismiss(animated: true)
+                        self.selectClosure?()
                     }
                 }
                 catch let error {
+                    //TO DO
                     print(error)
                 }
             case let .failure(error):
+                //TO DO
                 print(error)
             }
         }
@@ -134,12 +137,8 @@ extension FindCityViewController: UITableViewDelegate {
 
 extension FindCityViewController: UISearchBarDelegate {
     
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        searchBar.setShowsCancelButton(true, animated: true)
-    }
-    
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        searchBar.setShowsCancelButton(false, animated: true)
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.dismiss(animated: true)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -159,13 +158,15 @@ extension FindCityViewController: UISearchBarDelegate {
 
                     }
                 } catch let error {
+                    //TO DO
                     print(error)
                 }
                 
             case let .failure(error):
+                //TO DO
                 print(error)
             }
-            print(result)
+
         }
         
     }

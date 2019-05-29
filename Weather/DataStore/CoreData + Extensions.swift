@@ -16,4 +16,29 @@ extension Location {
         lon = location.coordinate.longitude
     }
     
+    func fill(_ location: SearchLocation) {
+        name = location.name
+        fullName = location.fullName
+        placeId = location.placeId
+        lat = location.lat
+        lon = location.lon
+        
+    }
+    
+    static func save(searchLocation: SearchLocation) {
+        
+        let predicates = [NSPredicate(format: "placeId = %@", searchLocation.placeId)]
+        let entityName = Location.self.entityName
+        print(entityName)
+        var location = CoreDataStore.findOne(entity: Location.self, predicates: predicates)
+
+        if location == nil {
+            location = CoreDataStore.new(entity: Location.self)
+            location?.date = Date()
+            location?.fill(searchLocation)
+            CoreDataStore.save()
+        }
+        
+    }
+    
 }

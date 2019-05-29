@@ -9,23 +9,23 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LocationsCell" customModule="Weather" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FindCityCell" textLabel="Oei-Ih-iB1" detailTextLabel="7ji-VQ-pSS" style="IBUITableViewCellStyleSubtitle" id="mtD-4J-0Kq">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ListCityCell" textLabel="9Qp-Vb-Ado" detailTextLabel="odf-d0-iRv" style="IBUITableViewCellStyleSubtitle" id="VVy-Hu-3Qs">
             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
             <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mtD-4J-0Kq" id="Qh3-KG-nHc">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VVy-Hu-3Qs" id="ClW-3c-tQy">
                 <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Oei-Ih-iB1">
+                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Qp-Vb-Ado">
                         <rect key="frame" x="20" y="5" width="33.5" height="20.5"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7ji-VQ-pSS">
+                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="odf-d0-iRv">
                         <rect key="frame" x="20" y="25.5" width="44" height="14.5"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -34,7 +34,7 @@
                     </label>
                 </subviews>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="-248" y="79"/>
+            <point key="canvasLocation" x="-106" y="50"/>
         </tableViewCell>
     </objects>
 </document>

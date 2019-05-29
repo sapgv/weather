@@ -27,7 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let weatherViewControoler = WeatherViewController()
 //        let locationsViewController = LocationsViewController(nibName: "LocationsViewController", bundle: nil)
 //        let locationsViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LocationsViewController")
-        let locationsViewController = UINavigationController(rootViewController: FindCityViewController())
+//        let locationsViewController = UINavigationController(rootViewController: FindCityViewController())
+        let locationsViewController = UINavigationController(rootViewController: ListCityViewController())
         window?.rootViewController = locationsViewController
         
         
