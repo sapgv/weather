@@ -16,11 +16,11 @@ class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.retrieveWeather {
-            
-            print("done")
-            
-        }
+//        viewModel.retrieveWeather {
+//            
+//            print("done")
+//            
+//        }
     }
 
 

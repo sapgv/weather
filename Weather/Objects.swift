@@ -8,32 +8,50 @@
 
 import Foundation
 
-struct WeatherCondition {
+struct Location {
     
-    var time: NSDate
-    var city: String
-    var weatherDescription: String
-    var minTempKelvin: Int
-    var maxTempKelvin: Int
+    let name: String
+    let fullName: String
+    var placeId : String = ""
+    var imageData: Data?
+    var lat: Double = 0
+    var lon: Double = 0
+    var weather: Weather?
     
-}
-
-struct SearchLocation {
-    var name: String
-    var fullName: String
-    var placeId : String
-    var lat: Double
-    var lon: Double
+    init(name: String, fullName: String) {
+        self.name = name
+        self.fullName = fullName
+    }
+    
+    init(location: CoreDataLocation) {
+        self.name = location.name ?? ""
+        self.fullName = location.fullName ?? ""
+        self.placeId = location.placeId ?? ""
+        self.imageData = location.imageData
+        self.lat = location.lat
+        self.lon = location.lon
+    }
     
     init(_ data: [String: AnyObject]) throws {
         self.name = try unwrap(try unwrap(data["structured_formatting"] as? [String: AnyObject])["main_text"] as? String)
         self.fullName = try unwrap(data["description"] as? String)
         self.placeId = try unwrap(data["place_id"] as? String)
-        self.lat = 0
-        self.lon = 0
+    }
+    
+    static func findAll() -> [Location] {
+        return CoreDataLocation.findAll().map {
+            Location(location: $0)
+        }
     }
 }
 
+struct Weather {
+    
+    let description: String
+    let temperature: Double
+    
+    
+}
 
 public func unwrap<T>(_ optional: T?) throws -> T  {
     if let real = optional {

@@ -29,8 +29,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let locationsViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LocationsViewController")
 //        let locationsViewController = UINavigationController(rootViewController: FindCityViewController())
         let locationsViewController = UINavigationController(rootViewController: ListCityViewController())
-        window?.rootViewController = locationsViewController
         
+        locationsViewController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        locationsViewController.navigationBar.shadowImage = UIImage()
+        locationsViewController.navigationBar.isTranslucent = true
+        locationsViewController.view.backgroundColor = UIColor.clear
+        
+        let list = ListCityViewController()
+        list.viewModel = ViewModel()
+        window?.rootViewController = list
         
         return true
         

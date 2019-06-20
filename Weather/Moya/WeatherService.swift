@@ -12,13 +12,13 @@ import CoreLocation
 
 enum WeatherService {
     
-    case retrieveWeatherAtLat(lat: CLLocationDegrees, lon: CLLocationDegrees)
+    case retrieveWeatherAtLat(lat: Double, lon: Double)
 
 }
 
 extension WeatherService: TargetType {
     
-    var baseURL: URL { return URL(string: "http://samples.openweathermap.org/data/2.5")! }
+    var baseURL: URL { return URL(string: "http://api.openweathermap.org/data/2.5")! }
     var path: String {
         switch self {
         case .retrieveWeatherAtLat:
@@ -36,7 +36,9 @@ extension WeatherService: TargetType {
                 parameters: [
                     "appid": Settings.OpenWeatherKey,
                     "lat": lat,
-                    "lon": lon
+                    "lon": lon,
+                    "units": "metric",
+                    "lang": "ru"
                 ],
                 encoding: URLEncoding.queryString
             )
@@ -50,4 +52,33 @@ extension WeatherService: TargetType {
     var headers: [String: String]? {
         return nil
     }
+}
+
+extension WeatherService {
+    
+    static func retrieveWeatherAtLat(for location: Location, _ completion: @escaping (_ weather: Weather?, _ error: NSError?) -> Void) {
+        
+        let provider = MoyaProvider<Self>()
+        
+        provider.request(.retrieveWeatherAtLat(lat: location.lat, lon: location.lon)) { result in
+            switch result {
+                
+            case let .success(response):
+                
+                do {
+                    let data = try response.mapJSON() as! [String: Any]
+                    print(data)
+                }
+                catch {
+                    // show an error to your user
+                }
+                
+            case let .failure(error):
+                //TO DO
+                completion(nil,nil)
+                print(error)
+            }
+        }
+    }
+    
 }

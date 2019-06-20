@@ -74,7 +74,7 @@ class CoreDataStore {
         predicates: [NSPredicate]? = nil,
         sort: [NSSortDescriptor]? = nil,
         count: Int? = nil,
-        in context: NSManagedObjectContext? = nil) throws -> [T] {
+        in context: NSManagedObjectContext? = nil) -> [T] {
         let context = context ?? self.context
         do {
             let fetchRequest = NSFetchRequest<T>(entityName: entity.entityName)
@@ -110,7 +110,7 @@ class CoreDataStore {
         in context: NSManagedObjectContext? = nil
         ) -> T? {
         
-        let results = try! find(entity: entity, predicates: predicates, sort: sort, count: 1, in: context)
+        let results = find(entity: entity, predicates: predicates, sort: sort, count: 1, in: context)
         return results.count > 0 ? results[0] : nil
     }
     
@@ -122,7 +122,7 @@ class CoreDataStore {
         ) -> T? {
         
         let predicates: [NSPredicate] = predicate != nil ? [predicate!] : []
-        let results = try! find(entity: entity, predicates: predicates, sort: sort, count: 1, in: context)
+        let results = find(entity: entity, predicates: predicates, sort: sort, count: 1, in: context)
         return results.count > 0 ? results[0] : nil
     }
     

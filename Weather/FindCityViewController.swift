@@ -18,7 +18,7 @@ class FindCityViewController: UIViewController {
         return searchBar
     }()
     
-    var locations: [SearchLocation] = []
+    var locations: [Location] = []
     let tableView = UITableView()
     let cellId = "FindCityCell"
     var selectClosure: (() -> Void)?
@@ -103,23 +103,59 @@ extension FindCityViewController: UITableViewDelegate {
         var location = locations[indexPath.row]
         let placeProvider = MoyaProvider<GoogleAutocompletionService>()
         
+        func savePickedLocation(coordinates: [String: Double], pickedLocation: Location, imageData: Data? = nil) {
+            //save picked location
+            do {
+                location.lat = try unwrap(coordinates["lat"])
+                location.lon = try unwrap(coordinates["lng"])
+                location.imageData = imageData
+                CoreDataLocation.save(location: location)
+                self.dismiss(animated: true)
+                self.selectClosure?()
+            }
+            catch {
+                //TO DO
+            }
+        }
+        
         placeProvider.request(.placeDetail(placeId: location.placeId)) { result in
             
             switch result {
-            case let .success(response):
+            case let .success(moyaResponse):
                 do {
-                    if let data = try response.mapJSON() as? [String: AnyObject],
+                    if let data = try moyaResponse.mapJSON() as? [String: AnyObject],
                         let result = (data["result"] as? [String: AnyObject]),
                         let geometry = result["geometry"] as? [String: AnyObject],
-                        let coordinates = geometry["location"] as? [String: Double]
+                        let coordinates = geometry["location"] as? [String: Double],
+                        let photos = result["photos"] as? [[String: AnyObject]]
                     {
                         
-                        //save picked location
-                        location.lat = try unwrap(coordinates["lat"])
-                        location.lon = try unwrap(coordinates["lng"])
-                        Location.save(searchLocation: location)
-                        self.dismiss(animated: true)
-                        self.selectClosure?()
+                        
+                        if let photo = photos.first,
+                            let photoreference = photo["photo_reference"] as? String,
+                            let width = photo["width"] as? Int
+                        {
+                            placeProvider.request(.photo(photoreference: photoreference, width: width)) { result in
+                                switch result {
+                                case let .success(moyaResponse):
+                                    
+//                                    let imageData = UIImage(data: moyaResponse.data)?.jpegData(compressionQuality: 1)
+//                                    let data = moyaResponse.data
+//                                    print(data.base64EncodedString())
+//                                    UIImage.repr
+                                    savePickedLocation(coordinates: coordinates, pickedLocation: location, imageData: moyaResponse.data)
+                                    
+                                    
+                                case let .failure(error):
+                                    print(error)
+                                }
+                            }
+                        }
+                        else {
+                            savePickedLocation(coordinates: coordinates, pickedLocation: location)
+                            
+                        }
+                        
                     }
                 }
                 catch let error {
@@ -152,7 +188,7 @@ extension FindCityViewController: UISearchBarDelegate {
                     if let data = try response.mapJSON() as? [String: AnyObject], let predictions = data["predictions"] as? [[String: AnyObject]] {
                        print(data)
                         self.locations = try predictions.compactMap {
-                            return try SearchLocation($0)
+                            return try Location($0)
                         }
                         self.tableView.reloadData()
 
